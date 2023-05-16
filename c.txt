@@ -1,0 +1,58 @@
+#include <LiquidCrystal.h>
+#include<Bounce2.h>
+
+LiquidCrystal lcd(13,12,11,10,9,8);
+int in=0;
+int out=0;
+int total =0;
+Bounce button1=Bounce(4,1);
+Bounce button2=Bounce(3,1);
+
+
+void setup() {
+
+  pinMode(4,INPUT);
+  pinMode(3,INPUT);
+  pinMode(5,OUTPUT);
+
+  lcd.begin(16,2);
+  lcd.clear();
+  lcd.print("In: ");
+  lcd.setCursor(10,0);
+  lcd.print("out: ");
+  lcd.setCursor(0,1);
+  lcd.print("Total Inside: ");
+  
+  }
+
+void loop() {
+  if(button1.update()){
+    if(button1.risingEdge()){
+      in++;
+    } 
+  }
+
+  if(button2.update()){
+    if(button2.risingEdge()){
+      out++;
+    } 
+  }
+total = in - out;
+
+if(total == 0){
+  digitalWrite(5,HIGH);
+}
+else{
+  digitalWrite(5,LOW);
+}
+
+lcd.setCursor(3,0);
+lcd.print(in);
+
+lcd.setCursor(14,0);
+lcd.print(out);
+
+lcd.setCursor(14,1);
+lcd.print(total);
+
+}
